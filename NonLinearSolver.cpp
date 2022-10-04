@@ -2,7 +2,20 @@
 
 double NonLinearSolver::secant(std::function<double(double)> f, double xInitial, double epsilon,
                                std::function<void(int, double)> onValueUpdate) {
-    return 0;
+    double xPrev = xInitial;
+    double x = xPrev + 1;
+
+    int step = 0;
+
+    do {
+        double xNew = x - (x - xPrev) / (f(x) - f(xPrev)) * f(x);
+        xPrev = x;
+        x = xNew;
+        onValueUpdate(step, xNew);
+        step++;
+    } while (std::abs(f(x)) > epsilon);
+
+    return x;
 }
 
 double NonLinearSolver::newton(const std::function<double(double)>& f, const std::function<double(double)>& fd, double xInitial,
