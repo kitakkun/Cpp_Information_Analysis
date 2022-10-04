@@ -5,8 +5,8 @@ double NonLinearSolver::secant(std::function<double(double)> f, double xInitial,
     return 0;
 }
 
-double NonLinearSolver::newton(std::function<double(double)> f, std::function<double(double)> fd, double xInitial,
-                               double epsilon, int maxStep, std::function<void(int, double)> onValueUpdate) {
+double NonLinearSolver::newton(const std::function<double(double)>& f, const std::function<double(double)>& fd, double xInitial,
+                               double epsilon, int maxStep, const std::function<void(int, double)>& onValueUpdate) {
     double x = xInitial;
     int step = 0;
     while(step < maxStep && std::abs(f(x)) > epsilon) {
