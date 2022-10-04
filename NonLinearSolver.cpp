@@ -50,5 +50,20 @@ double NonLinearSolver::bisection(std::function<double(double)> f, double aIniti
 
 double NonLinearSolver::regula_falsi(std::function<double(double)> f, double aInitial, double bInitial, double epsilon,
                                      std::function<void(int, double, double)> onValueUpdate) {
-    return 0;
+    double a = aInitial;
+    double b = bInitial;
+    double c;
+    int step = 0;
+
+    do {
+        double fa = f(a), fb = f(b);
+        c = (a * fb - b * fa) / (fb - fa);
+        double fc = f(c);
+        if (fc * fa < 0) b = c;
+        else a = c;
+        onValueUpdate(step, a, b);
+        step++;
+    } while (abs(f(c)) > epsilon);
+
+    return c;
 }
